@@ -1,4 +1,4 @@
-package disAMS.allocate;
+package disAMS.remoteAppMaster;
 
 import org.apache.hadoop.yarn.api.ApplicationMasterProtocol;
 
