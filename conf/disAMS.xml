@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<!--please configuration the using remote namenode address 
+-->
+
+<!-- Put site-specific property overrides in this file. -->
+<configuration>
+    <!-- 指定remote HDFS namenode的通信地址 -->
+    <property>
+        <name>disAMS1</name>
+        <value>114.212.81.167:9000</value>
+    </property>
+    
+</configuration>
