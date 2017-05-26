@@ -5,10 +5,9 @@
 
 <!-- Put site-specific property overrides in this file. -->
 <configuration>
-    <!-- 指定remote HDFS namenode的通信地址 -->
+    <!-- 指定remote yarn resource manager的通信地址 -->
     <property>
         <name>disAMS1</name>
-        <value>114.212.81.167:9000</value>
+        <value>114.212.81.167:8088</value>
     </property>
-    
 </configuration>

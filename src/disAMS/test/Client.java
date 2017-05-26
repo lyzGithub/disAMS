@@ -1,4 +1,4 @@
-package disAMS.remoteYarnClient;
+package disAMS.test;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,12 +29,12 @@ import org.apache.hadoop.yarn.util.ConverterUtils;
 import org.apache.hadoop.yarn.util.Records;
 
 
-public class remoteYarnClient {
+public class Client {
 
   Configuration conf = new YarnConfiguration();
   
-  public void initProcess(String[] args) throws Exception {
-    final String command = args[0]; //command line of 
+  public void run(String[] args) throws Exception {
+    final String command = args[0];
     final int n = Integer.valueOf(args[1]);
     final Path jarPath = new Path(args[2]);
 
@@ -75,13 +75,13 @@ public class remoteYarnClient {
     
     // Set up resource type requirements for ApplicationMaster
     Resource capability = Records.newRecord(Resource.class);
-    capability.setMemory(512);
+    capability.setMemory(256);
     capability.setVirtualCores(1);
 
     // Finally, set-up ApplicationSubmissionContext for the application
     ApplicationSubmissionContext appContext = 
     app.getApplicationSubmissionContext();
-    appContext.setApplicationName("remoteResource-yarn-app"); // application name
+    appContext.setApplicationName("simple-yarn-app"); // application name
     appContext.setAMContainerSpec(amContainer);
     appContext.setResource(capability);
     appContext.setQueue("default"); // queue 
@@ -90,10 +90,6 @@ public class remoteYarnClient {
     ApplicationId appId = appContext.getApplicationId();
     System.out.println("Submitting application " + appId);
     yarnClient.submitApplication(appContext);
-    
-    
-    //can get AllocateRequest ?
-    
     
     ApplicationReport appReport = yarnClient.getApplicationReport(appId);
     YarnApplicationState appState = appReport.getYarnApplicationState();
@@ -121,12 +117,12 @@ public class remoteYarnClient {
     appMasterJar.setVisibility(LocalResourceVisibility.PUBLIC);
   }
   
-  @SuppressWarnings("deprecation")
-private void setupAppMasterEnv(Map<String, String> appMasterEnv) {
+  private void setupAppMasterEnv(Map<String, String> appMasterEnv) {
     for (String c : conf.getStrings(
         YarnConfiguration.YARN_APPLICATION_CLASSPATH,
         YarnConfiguration.DEFAULT_YARN_APPLICATION_CLASSPATH)) {
-      Apps.addToEnvironment(appMasterEnv, Environment.CLASSPATH.name(), c.trim());
+      Apps.addToEnvironment(appMasterEnv, Environment.CLASSPATH.name(),
+          c.trim());
     }
     Apps.addToEnvironment(appMasterEnv,
         Environment.CLASSPATH.name(),
@@ -134,7 +130,7 @@ private void setupAppMasterEnv(Map<String, String> appMasterEnv) {
   }
   
   public static void main(String[] args) throws Exception {
-    remoteYarnClient ryc = new remoteYarnClient();
-    ryc.initProcess(args);
+    Client c = new Client();
+    c.run(args);
   }
 }
